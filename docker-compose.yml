@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    ports:
+      - '80:80'   # Puerto HTTP para el proxy
+      - '81:81'   # Puerto de la interfaz de administración de NPM
+      - '443:443' # Puerto HTTPS para el proxy (SSL)
+    volumes:
+      - npm-data:/data
+      - npm-config:/etc/nginx/conf.d
+    networks:
+      - movie-reservation-network
+    restart: always
+
+networks:
+  movie-reservation-network:
+    driver: bridge
+
+volumes:
+  npm-data:
+  npm-config:
