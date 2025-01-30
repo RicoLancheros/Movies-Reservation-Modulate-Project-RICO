@@ -9,6 +9,22 @@ services:
     volumes:
       - npm-data:/data
       - npm-config:/etc/nginx/conf.d
+      - npm-letsencrypt:/etc/letsencrypt
+    networks:
+      - movie-reservation-network
+    restart: always
+
+  mysql-db:
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MySQL_PSS}
+      MYSQL_DATABASE: user_service_db
+      MYSQL_USER: user_app  # Nombre de usuario para la aplicación
+      MYSQL_PASSWORD: ${MySQL_PSS}
+    volumes:
+      - mysql-data:/var/lib/mysql
     networks:
       - movie-reservation-network
     restart: always
@@ -20,3 +36,5 @@ networks:
 volumes:
   npm-data:
   npm-config:
+  npm-letsencrypt:
+  mysql-data:
